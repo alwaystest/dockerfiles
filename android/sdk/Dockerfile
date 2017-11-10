@@ -1,4 +1,4 @@
-FROM snowdream/gradle:3.4.1
+FROM snowdream/gradle:3.5.1
 
 MAINTAINER snowdream <yanghui1986527@gmail.com>
 
@@ -15,8 +15,8 @@ ENV ANDROID_HOME ${SDK_HOME}/android-sdk-linux
 ENV ANDROID_SDK ${SDK_HOME}/android-sdk-linux
 ENV ANDROID_SDK_MANAGER ${SDK_HOME}/android-sdk-linux/tools/bin/sdkmanager
 
-ENV ANDROID_SDK_VERSION r25.2.3
-ENV ANDROID_SDK_URL https://dl.google.com/android/repository/tools_${ANDROID_SDK_VERSION}-linux.zip
+ENV ANDROID_SDK_VERSION r26.1.2
+ENV ANDROID_SDK_URL https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
 RUN curl -sSL "${ANDROID_SDK_URL}" -o tools_${ANDROID_SDK_VERSION}-linux.zip \
     && unzip tools_${ANDROID_SDK_VERSION}-linux.zip -d ${ANDROID_HOME} \
   && rm -rf tools_${ANDROID_SDK_VERSION}-linux.zip
@@ -26,10 +26,8 @@ ENV PATH ${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:$ANDROID_HOME/platform-
 # Install Android SDK Components
 ENV ANDROID_COMPONENTS "tools" \
                        "platform-tools" \
-                       "build-tools;25.0.2" \
-                       "build-tools;25.0.1" \
-                       "build-tools;25.0.0" \
-                       "platforms;android-25" 
+                       "build-tools;26.0.2" \
+                       "platforms;android-26" 
 
 ENV GOOGLE_COMPONENTS "extras;android;m2repository" \
                        "extras;google;m2repository" \
@@ -38,9 +36,10 @@ ENV GOOGLE_COMPONENTS "extras;android;m2repository" \
 ENV CONSTRAINT_LAYOUT "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"\
                        "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
 
-RUN mkdir -p ${ANDROID_HOME}/licenses/ && \
-    echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > ${ANDROID_HOME}/licenses/android-sdk-license && \
-    echo "84831b9409646a918e30573bab4c9c91346d8abd" > ${ANDROID_HOME}/licenses/android-sdk-preview-license && \
+# Accept licenses before installing components, no need to echo y for each component
+# License is valid for all the standard components in versions installed from this file
+# Non-standard components: MIPS system images, preview versions, GDK (Google Glass) and Android Google TV require separate licenses, not accepted there
+RUN yes | ${ANDROID_SDK_MANAGER} --licenses && \
     ${ANDROID_SDK_MANAGER}  ${ANDROID_COMPONENTS} \
                             ${GOOGLE_COMPONENTS} \
                             ${CONSTRAINT_LAYOUT}  

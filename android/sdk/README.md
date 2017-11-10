@@ -1,5 +1,11 @@
+# Fork from [snowdream](https://github.com/snowdream/dockerfiles)
+
+About accept android licenses, see https://github.com/bitrise-docker/android
+
+Update Android SDK and use for my own.
+
 # android
-[![android](http://dockeri.co/image/snowdream/android)](https://hub.docker.com/r/snowdream/android/)
+[![android](http://dockeri.co/image/alwaystest/androidci)](https://hub.docker.com/r/alwaystest/androidci/)
 
 This is a Dockerfile to make minimum images for Android projects.
 No `ant`, `maven`are included.
@@ -8,20 +14,10 @@ No `ant`, `maven`are included.
 * Debian jessie
 * OpenJDK 8
 * Git
-* Gradle 3.4
-* Android SDK (android-25)
+* Gradle 3.5.1
+* Android SDK (android-26)
 * Android Support Libraries
 * Google Play Services
-
-## Download
-```bash
-docker pull snowdream/android
-```
-
-## Usage
-```bash
-sudo docker run -t -i snowdream/android:latest /bin/bash
-```
 
 ## License
 ```
