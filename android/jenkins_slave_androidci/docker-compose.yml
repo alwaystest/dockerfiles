@@ -1,0 +1,10 @@
+version: "2"
+
+services:
+    jenkins_slave:
+        build: ./
+        image: eric/jenkins_slave_android
+        container_name: slave_android
+        volumes:
+            - "./jenkins:/home/jenkins"
+        command: java -jar /usr/share/jenkins/slave.jar -jnlpUrl http://JENKINS_HOST:JENKINS_PORT/computer/AndroidCI/slave-agent.jnlp -secret YOUR_SECRET -workDir "./"
