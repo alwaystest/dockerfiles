@@ -1,0 +1,9 @@
+web:
+    image: nginx:alpine
+    volumes:
+        - ./mysite:/usr/share/nginx/html
+    ports:
+        - "80:80"
+    container_name: web
+    environment:
+        - NGINX_PORT=80
